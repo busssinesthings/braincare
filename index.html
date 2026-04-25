@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Brain Care — Website Blocker for Schools & Families</title>
+  <meta name="description" content="Brain Care is a free, passcode-protected website blocker for parents, teachers, and guidance counselors. Block harmful sites in seconds. 100% private." />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg:      #07101f;
+      --surf:    #0d1a2e;
+      --surf2:   #112240;
+      --teal:    #0fb8a9;
+      --teal2:   #0891b2;
+      --red:     #f43f5e;
+      --text:    #e2ecff;
+      --muted:   #6b87b4;
+      --border:  #1e3358;
+      --pink:    #e05878;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow-x: hidden;
+    }
+
+    /* ── GRID BACKGROUND ── */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(15,184,169,0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(15,184,169,0.03) 1px, transparent 1px);
+      background-size: 48px 48px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* ── NAV ── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0;
+      z-index: 100;
+      background: rgba(7,16,31,0.88);
+      backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 40px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .nav-logo-icon {
+      width: 36px; height: 36px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px;
+      box-shadow: 0 0 14px rgba(15,184,169,0.3);
+    }
+    .nav-logo-text {
+      font-size: 18px; font-weight: 700;
+      color: var(--text);
+    }
+    .nav-logo-text span { color: var(--teal); }
+    .nav-links { display: flex; align-items: center; gap: 32px; }
+    .nav-links a {
+      font-size: 14px; font-weight: 500;
+      color: var(--muted); text-decoration: none;
+      transition: color 0.15s;
+    }
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      color: #fff !important;
+      padding: 9px 20px;
+      border-radius: 10px;
+      font-weight: 600 !important;
+      box-shadow: 0 4px 14px rgba(15,184,169,0.25);
+      transition: opacity 0.15s, transform 0.15s !important;
+    }
+    .nav-cta:hover { opacity: 0.88; transform: translateY(-1px); color: #fff !important; }
+
+    /* ── SECTIONS ── */
+    section { position: relative; z-index: 1; }
+
+    /* ── HERO ── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 24px 80px;
+      flex-direction: column;
+    }
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(15,184,169,0.1);
+      border: 1px solid rgba(15,184,169,0.25);
+      color: var(--teal);
+      font-size: 13px;
+      font-weight: 600;
+      padding: 7px 18px;
+      border-radius: 30px;
+      margin-bottom: 32px;
+    }
+    .hero-badge-dot {
+      width: 7px; height: 7px;
+      background: var(--teal);
+      border-radius: 50%;
+      animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.2} }
+
+    .hero h1 {
+      font-size: clamp(52px, 8vw, 96px);
+      font-weight: 900;
+      letter-spacing: -2px;
+      line-height: 1.05;
+      margin-bottom: 8px;
+    }
+    .hero h1 span { color: var(--teal); }
+
+    .hero-sub {
+      font-size: clamp(18px, 2.5vw, 26px);
+      color: var(--muted);
+      max-width: 640px;
+      line-height: 1.55;
+      margin: 20px auto 48px;
+      font-weight: 400;
+    }
+
+    .hero-actions {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 72px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      color: #fff;
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 8px 28px rgba(15,184,169,0.3);
+      transition: all 0.2s;
+    }
+    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 36px rgba(15,184,169,0.4); }
+    .btn-ghost {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      padding: 16px 32px;
+      border-radius: 14px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+    .btn-ghost:hover { border-color: var(--teal); color: var(--teal); }
+
+    /* Hero stats */
+    .hero-stats {
+      display: flex;
+      gap: 48px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .stat { text-align: center; }
+    .stat-val { font-size: 32px; font-weight: 800; color: var(--text); }
+    .stat-val span { color: var(--teal); }
+    .stat-label { font-size: 13px; color: var(--muted); margin-top: 4px; }
+
+    /* ── ZOMBIE HERO VISUAL ── */
+    .hero-visual {
+      margin: 0 auto 56px;
+    }
+    .zombie-wrap {
+      position: relative;
+      display: inline-block;
+    }
+    .zombie-wrap svg {
+      filter: drop-shadow(0 20px 60px rgba(224,88,120,0.3));
+      animation: float 4s ease-in-out infinite;
+    }
+    @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-14px)} }
+    .glow-ring {
+      position: absolute;
+      bottom: -20px; left: 50%;
+      transform: translateX(-50%);
+      width: 160px; height: 24px;
+      background: radial-gradient(ellipse, rgba(15,184,169,0.25) 0%, transparent 70%);
+    }
+
+    /* ── HOW IT WORKS ── */
+    .how {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .section-label {
+      font-size: 12px; font-weight: 700;
+      color: var(--teal);
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      text-align: center;
+      margin-bottom: 16px;
+    }
+    .section-title {
+      font-size: clamp(32px, 5vw, 52px);
+      font-weight: 800;
+      letter-spacing: -1px;
+      text-align: center;
+      margin-bottom: 64px;
+      line-height: 1.1;
+    }
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 24px;
+    }
+    .step-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 32px 28px;
+      transition: transform 0.2s, border-color 0.2s;
+    }
+    .step-card:hover { transform: translateY(-4px); border-color: var(--teal); }
+    .step-num {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--teal), var(--teal2));
+      border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 20px; font-weight: 800;
+      color: #fff;
+      margin-bottom: 20px;
+      box-shadow: 0 6px 16px rgba(15,184,169,0.25);
+    }
+    .step-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .step-card p { font-size: 14px; color: var(--muted); line-height: 1.65; }
+
+    /* ── FEATURES ── */
+    .features {
+      padding: 100px 24px;
+      background: var(--surf);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .features-inner { max-width: 1100px; margin: 0 auto; }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+    }
+    .feat-card {
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 28px;
+      display: flex;
+      gap: 18px;
+      align-items: flex-start;
+      transition: border-color 0.2s;
+    }
+    .feat-card:hover { border-color: var(--teal); }
+    .feat-icon {
+      font-size: 28px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .feat-card h3 { font-size: 16px; font-weight: 700; margin-bottom: 7px; }
+    .feat-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── WHO IS IT FOR ── */
+    .audience {
+      padding: 100px 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .audience-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 20px;
+    }
+    .audience-card {
+      background: var(--surf);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 36px 28px;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .audience-card:hover { transform: translateY(-4px); border-color: var(--teal); }
+    .aud-emoji { font-size: 48px; margin-bottom: 16px; display: block; }
+    .audience-card h3 { font-size: 18px; font-weight: 700; margin-bottom: 10px; }
+    .audience-card p  { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+    /* ── PRIVACY SECTION ── */
+    .privacy {
+      padding: 100px 24px;
+      background: var(--surf);
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+    .privacy-inner {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .privacy-inner h2 { font-size: 42px; font-weight: 800; letter-spacing: -1px; margin-bottom: 20px; }
+    .privacy-inner p  { font-size: 16px; color: var(--muted); line-height: 1.7; margin-bottom: 40px; }
+    .privacy-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: center;
+    }
+    .priv-pill {
+      background: rgba(15,184,169,0.08);
+      border: 1px solid rgba(15,184,169,0.2);
+      color: var(--teal);
+      padding: 10px 22px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* ── CTA ── */
+    .cta-section {
+      padding: 120px 24px;
+      text-align: center;
+    }
+    .cta-section h2 {
+      font-size: clamp(36px, 6vw, 72px);
+      font-weight: 900;
+      letter-spacing: -1.5px;
+      margin-bottom: 20px;
+      line-height: 1.05;
+    }
+    .cta-section h2 span { color: var(--teal); }
+    .cta-section p { font-size: 18px; color: var(--muted); margin-bottom: 48px; }
+
+    /* ── FOOTER ── */
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    .footer-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+    }
+    .footer-logo span { font-size: 15px; font-weight: 700; color: var(--muted); }
+    .footer-links { display: flex; gap: 24px; }
+    .footer-links a { font-size: 13px; color: var(--muted); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+    .footer-copy { font-size: 12px; color: var(--border); }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 640px) {
+      nav { padding: 0 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 20px 60px; }
+      .hero-stats { gap: 28px; }
+      footer { flex-direction: column; text-align: center; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- ── NAV ── -->
+  <nav>
+    <a class="nav-logo" href="#">
+      <div class="nav-logo-icon">🧠</div>
+      <div class="nav-logo-text">Brain<span>Care</span></div>
+    </a>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="#who">Who it's for</a>
+      <a href="#privacy">Privacy</a>
+      <a href="https://chromewebstore.google.com" class="nav-cta">Add to Chrome — Free</a>
+    </div>
+  </nav>
+
+  <!-- ── HERO ── -->
+  <section class="hero">
+    <div class="hero-badge">
+      <div class="hero-badge-dot"></div>
+      Free Chrome Extension · No account needed
+    </div>
+
+    <!-- Zombie SVG -->
+    <div class="hero-visual">
+      <div class="zombie-wrap">
+        <svg width="180" height="200" viewBox="0 0 128 160" xmlns="http://www.w3.org/2000/svg">
+          <!-- Skull -->
+          <ellipse cx="64" cy="52" rx="48" ry="28" fill="#b8b490"/>
+          <!-- Face -->
+          <ellipse cx="64" cy="78" rx="48" ry="44" fill="#5a8a58"/>
+          <rect x="16" y="56" width="96" height="14" fill="#5a8a58"/>
+          <!-- Brain lobes -->
+          <ellipse cx="46" cy="36" rx="22" ry="18" fill="#e45070"/>
+          <ellipse cx="82" cy="36" rx="22" ry="18" fill="#d04060"/>
+          <ellipse cx="64" cy="28" rx="20" ry="16" fill="#f06080"/>
+          <ellipse cx="64" cy="38" rx="14" ry="10" fill="#e85878"/>
+          <!-- Brain folds -->
+          <line x1="64" y1="14" x2="64" y2="48" stroke="#aa2848" stroke-width="1.5"/>
+          <path d="M38 40 Q44 33 50 40" stroke="#aa2848" stroke-width="1.5" fill="none"/>
+          <path d="M78 40 Q84 33 90 40" stroke="#aa2848" stroke-width="1.5" fill="none"/>
+          <!-- Cracks -->
+          <polyline points="42,50 36,38 42,28" stroke="#948e74" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <polyline points="86,50 92,38 86,28" stroke="#948e74" stroke-width="2" fill="none" stroke-linecap="round"/>
+          <!-- Brain drip -->
+          <ellipse cx="38" cy="52" rx="5" ry="5" fill="#e45070"/>
+          <ellipse cx="37" cy="60" rx="4" ry="4" fill="#e45070"/>
+          <ellipse cx="36" cy="68" rx="3" ry="3" fill="#e45070"/>
+          <!-- Eye sockets -->
+          <ellipse cx="48" cy="76" rx="14" ry="12" fill="#0a0404"/>
+          <ellipse cx="80" cy="76" rx="14" ry="12" fill="#0a0404"/>
+          <!-- Eyes — phone screen -->
+          <ellipse cx="48" cy="76" rx="11" ry="9" fill="#003264"/>
+          <ellipse cx="80" cy="76" rx="11" ry="9" fill="#003264"/>
+          <circle  cx="48" cy="76" r="7" fill="#0088ee"/>
+          <circle  cx="80" cy="76" r="7" fill="#0088ee"/>
+          <circle  cx="48" cy="76" r="3.5" fill="#000a20"/>
+          <circle  cx="80" cy="76" r="3.5" fill="#000a20"/>
+          <ellipse cx="44" cy="73" rx="4" ry="3" fill="#aaddff" opacity="0.7"/>
+          <ellipse cx="76" cy="73" rx="4" ry="3" fill="#aaddff" opacity="0.7"/>
+          <!-- Nose -->
+          <ellipse cx="58" cy="92" rx="4" ry="3" fill="#347034"/>
+          <ellipse cx="70" cy="92" rx="4" ry="3" fill="#347034"/>
+          <!-- Mouth -->
+          <path d="M46 106 Q64 118 82 106" fill="#1a301a"/>
+          <rect x="52" y="104" width="8"  height="8"  rx="2" fill="#d4d0ac"/>
+          <rect x="62" y="104" width="6"  height="9"  rx="2" fill="#c4c09c"/>
+          <rect x="70" y="104" width="8"  height="8"  rx="2" fill="#d4d0ac"/>
+          <!-- Stitches -->
+          <line x1="22" y1="82" x2="28" y2="76" stroke="#264826" stroke-width="2"/>
+          <line x1="21" y1="88" x2="28" y2="88" stroke="#264826" stroke-width="2"/>
+          <line x1="22" y1="94" x2="28" y2="100" stroke="#264826" stroke-width="2"/>
+        </svg>
+        <div class="glow-ring"></div>
+      </div>
+    </div>
+
+    <h1>Protect Young<br/><span>Minds Online.</span></h1>
+    <p class="hero-sub">
+      Brain Care is a free, passcode-protected website blocker for parents, teachers, and guidance counselors. Block harmful sites in seconds. Students can't bypass it.
+    </p>
+
+    <div class="hero-actions">
+      <a href="https://chromewebstore.google.com" class="btn-primary">
+        🧠 Add to Chrome — It's Free
+      </a>
+      <a href="#how" class="btn-ghost">
+        See how it works →
+      </a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="stat">
+        <div class="stat-val">Free<span>.</span></div>
+        <div class="stat-label">Always free to use</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">60<span>s</span></div>
+        <div class="stat-label">Setup time</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">0<span>%</span></div>
+        <div class="stat-label">Data collected</div>
+      </div>
+      <div class="stat">
+        <div class="stat-val">∞</div>
+        <div class="stat-label">Sites you can block</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── HOW IT WORKS ── -->
+  <section class="how" id="how">
+    <div class="section-label">How it works</div>
+    <h2 class="section-title">Up and running<br/>in under 60 seconds</h2>
+    <div class="steps-grid">
+      <div class="step-card">
+        <div class="step-num">1</div>
+        <h3>Install Brain Care</h3>
+        <p>Add it to Chrome from the Web Store in one click. No account, no sign-up required.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">2</div>
+        <h3>Create your passcode</h3>
+        <p>Set a secure admin passcode on first launch. Only you know it — students can't change settings without it.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">3</div>
+        <h3>Add sites to block</h3>
+        <p>Type any domain or tap a quick-add preset — YouTube, TikTok, Kick, adult sites, and more. Blocked instantly.</p>
+      </div>
+      <div class="step-card">
+        <div class="step-num">4</div>
+        <h3>Students are protected</h3>
+        <p>When a student visits a blocked site, they see a clear "Site Blocked" page. Only your passcode can unlock it.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── FEATURES ── -->
+  <section class="features" id="features">
+    <div class="features-inner">
+      <div class="section-label">Features</div>
+      <h2 class="section-title">Everything you need.<br/>Nothing you don't.</h2>
+      <div class="features-grid">
+        <div class="feat-card">
+          <div class="feat-icon">⚡</div>
+          <div>
+            <h3>Quick-Add Presets</h3>
+            <p>One tap to block entire categories — YouTube, TikTok, Kick, Instagram, Reddit, Snapchat, and adult content bundles.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔐</div>
+          <div>
+            <h3>Passcode Protected</h3>
+            <p>Every change — adding sites, removing sites, changing settings — requires your admin passcode. Students can't bypass it.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🛡️</div>
+          <div>
+            <h3>Instant Blocking</h3>
+            <p>Sites are blocked the moment you add them using Chrome's built-in declarativeNetRequest API. No delays.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🧠</div>
+          <div>
+            <h3>Smart Blocked Page</h3>
+            <p>Students see a clean, branded blocked page that explains why the site is restricted — not a confusing error screen.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">🔒</div>
+          <div>
+            <h3>100% Private</h3>
+            <p>No data ever leaves your device. No servers, no accounts, no analytics. Everything is stored locally on your Chrome profile.</p>
+          </div>
+        </div>
+        <div class="feat-card">
+          <div class="feat-icon">♾️</div>
+          <div>
+            <h3>Unlimited Blocks</h3>
+            <p>Block as many websites as you need — there are no limits. Add individual domains or entire content category bundles.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── WHO IS IT FOR ── -->
+  <section class="audience" id="who">
+    <div class="section-label">Who it's for</div>
+    <h2 class="section-title">Built for the people<br/>who care most</h2>
+    <div class="audience-grid">
+      <div class="audience-card">
+        <span class="aud-emoji">👨‍🏫</span>
+        <h3>Teachers</h3>
+        <p>Keep students focused during class by blocking social media and entertainment sites on school computers.</p>
+      </div>
+      <div class="audience-card">
+        <span class="aud-emoji">🧑‍💼</span>
+        <h3>Guidance Counselors</h3>
+        <p>Protect vulnerable students from harmful content and ensure safe browsing across school devices.</p>
+      </div>
+      <div class="audience-card">
+        <span class="aud-emoji">👨‍👩‍👧</span>
+        <h3>Parents</h3>
+        <p>Keep your children safe online at home. Block inappropriate content with a passcode only you know.</p>
+      </div>
+      <div class="audience-card">
+        <span class="aud-emoji">🏫</span>
+        <h3>School Admins</h3>
+        <p>Deploy across computer labs and library workstations. Simple to set up, impossible for students to circumvent.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ── PRIVACY ── -->
+  <section class="privacy" id="privacy">
+    <div class="privacy-inner">
+      <div class="section-label">Privacy</div>
+      <h2>We collect<br/>absolutely nothing.</h2>
+      <p>
+        Brain Care was built with privacy at its core. Your blocked site list and passcode are stored locally on your device using Chrome's built-in storage. Nothing is ever sent to a server. There are no accounts, no analytics, no tracking — just protection.
+      </p>
+      <div class="privacy-pills">
+        <div class="priv-pill">✓ No data collection</div>
+        <div class="priv-pill">✓ No accounts required</div>
+        <div class="priv-pill">✓ No servers</div>
+        <div class="priv-pill">✓ No analytics</div>
+        <div class="priv-pill">✓ Stored locally only</div>
+        <div class="priv-pill">✓ Open for inspection</div>
+      </div>
+      <br/><br/>
+      <a href="privacy.html" style="color:var(--teal);font-size:14px;font-weight:600;">Read the full Privacy Policy →</a>
+    </div>
+  </section>
+
+  <!-- ── CTA ── -->
+  <section class="cta-section">
+    <h2>Start protecting<br/><span>young minds today.</span></h2>
+    <p>Free forever. No account. Works in 60 seconds.</p>
+    <a href="https://chromewebstore.google.com" class="btn-primary" style="font-size:18px; padding:18px 40px; margin:0 auto;">
+      🧠 Add Brain Care to Chrome — Free
+    </a>
+  </section>
+
+  <!-- ── FOOTER ── -->
+  <footer>
+    <a class="footer-logo" href="#">
+      <span>🧠 Brain<span style="color:var(--teal)">Care</span></span>
+    </a>
+    <div class="footer-links">
+      <a href="#how">How it works</a>
+      <a href="#features">Features</a>
+      <a href="privacy.html">Privacy Policy</a>
+    </div>
+    <div class="footer-copy">© 2026 Brain Care. Free & open.</div>
+  </footer>
+
+</body>
+</html>
